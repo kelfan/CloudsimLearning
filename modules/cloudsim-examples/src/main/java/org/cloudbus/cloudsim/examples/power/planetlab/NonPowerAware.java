@@ -11,8 +11,8 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.examples.power.Constants;
 import org.cloudbus.cloudsim.examples.power.Helper;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.power.PowerDatacenterNonPowerAware;
-import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimple;
 
 /**
@@ -59,7 +59,7 @@ public class NonPowerAware {
 
 			List<Cloudlet> cloudletList = PlanetLabHelper.createCloudletListPlanetLab(brokerId, inputFolder);
 			List<Vm> vmList = Helper.createVmList(brokerId, cloudletList.size());
-			List<PowerHost> hostList = Helper.createHostList(PlanetLabConstants.NUMBER_OF_HOSTS);
+			List<MergedHost> hostList = Helper.createHostList(PlanetLabConstants.NUMBER_OF_HOSTS);
 
 			PowerDatacenterNonPowerAware datacenter = (PowerDatacenterNonPowerAware) Helper.createDatacenter(
 					"Datacenter",

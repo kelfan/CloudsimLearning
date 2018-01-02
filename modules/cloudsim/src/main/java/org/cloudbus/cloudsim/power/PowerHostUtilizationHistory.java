@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.VmScheduler;
+import org.cloudbus.cloudsim.merge.MergedVm;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.power.models.PowerModel;
 import org.cloudbus.cloudsim.provisioners.BwProvisioner;
 import org.cloudbus.cloudsim.provisioners.RamProvisioner;
@@ -34,7 +36,7 @@ import org.cloudbus.cloudsim.util.MathUtil;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class PowerHostUtilizationHistory extends PowerHost {
+public class PowerHostUtilizationHistory extends MergedHost {
 
 	/**
 	 * Instantiates a new PowerHostUtilizationHistory.
@@ -64,9 +66,9 @@ public class PowerHostUtilizationHistory extends PowerHost {
 	 * @return the host CPU utilization percentage history
 	 */
 	protected double[] getUtilizationHistory() {
-		double[] utilizationHistory = new double[PowerVm.HISTORY_LENGTH];
+		double[] utilizationHistory = new double[MergedVm.HISTORY_LENGTH];
 		double hostMips = getTotalMips();
-		for (PowerVm vm : this.<PowerVm> getVmList()) {
+		for (MergedVm vm : this.<MergedVm> getVmList()) {
 			for (int i = 0; i < vm.getUtilizationHistory().size(); i++) {
 				utilizationHistory[i] += vm.getUtilizationHistory().get(i) * vm.getMips() / hostMips;
 			}

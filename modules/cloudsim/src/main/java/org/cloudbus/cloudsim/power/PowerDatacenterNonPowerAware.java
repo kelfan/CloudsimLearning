@@ -19,6 +19,8 @@ import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
+import org.cloudbus.cloudsim.merge.MergedDatacenter;
+import org.cloudbus.cloudsim.merge.MergedHost;
 
 /**
  * PowerDatacenterNonPowerAware is a class that represents a <b>non-power</b> aware data center in the
@@ -37,7 +39,7 @@ import org.cloudbus.cloudsim.core.predicates.PredicateType;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class PowerDatacenterNonPowerAware extends PowerDatacenter {
+public class PowerDatacenterNonPowerAware extends MergedDatacenter {
 
 	/**
 	 * Instantiates a new datacenter.
@@ -75,7 +77,7 @@ public class PowerDatacenterNonPowerAware extends PowerDatacenter {
 
 			Log.printLine("\n");
 
-			for (PowerHost host : this.<PowerHost> getHostList()) {
+			for (MergedHost host : this.<MergedHost> getHostList()) {
 				Log.formatLine("%.2f: Host #%d", CloudSim.clock(), host.getId());
 
 				double hostPower = 0.0;
@@ -103,7 +105,7 @@ public class PowerDatacenterNonPowerAware extends PowerDatacenter {
 
 			Log.printLine("\n\n--------------------------------------------------------------\n\n");
 
-			for (PowerHost host : this.<PowerHost> getHostList()) {
+			for (MergedHost host : this.<MergedHost> getHostList()) {
 				Log.formatLine("\n%.2f: Host #%d", CloudSim.clock(), host.getId());
 
 				double time = host.updateVmsProcessing(currentTime); // inform VMs to update
@@ -118,7 +120,7 @@ public class PowerDatacenterNonPowerAware extends PowerDatacenter {
 			checkCloudletCompletion();
 
 			/** Remove completed VMs **/
-			for (PowerHost host : this.<PowerHost> getHostList()) {
+			for (MergedHost host : this.<MergedHost> getHostList()) {
 				for (Vm vm : host.getCompletedVms()) {
 					getVmAllocationPolicy().deallocateHostForVm(vm);
 					getVmList().remove(vm);
@@ -135,8 +137,8 @@ public class PowerDatacenterNonPowerAware extends PowerDatacenter {
 				if (migrationMap != null) {
 					for (Map<String, Object> migrate : migrationMap) {
 						Vm vm = (Vm) migrate.get("vm");
-						PowerHost targetHost = (PowerHost) migrate.get("host");
-						PowerHost oldHost = (PowerHost) vm.getHost();
+						MergedHost targetHost = (MergedHost) migrate.get("host");
+						MergedHost oldHost = (MergedHost) vm.getHost();
 
 						if (oldHost == null) {
 							Log.formatLine(

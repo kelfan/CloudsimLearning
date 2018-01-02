@@ -13,6 +13,8 @@ import java.util.Map;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.UtilizationModel;
+import org.cloudbus.cloudsim.merge.HostPacket;
+import org.cloudbus.cloudsim.merge.TaskStage;
 
 /**
  * NetworkCloudlet class extends Cloudlet to support simulation of complex applications. Each such
@@ -61,7 +63,7 @@ public class NetworkCloudlet extends Cloudlet implements Comparable<Object> {
 	public Map<Double, HostPacket> timeCommunicate;
 
         /** All stages which cloudlet execution. */
-	public ArrayList<TaskStage> stages; 
+	public ArrayList<TaskStage> stages;
         
         /**
          * Cloudlet's memory.

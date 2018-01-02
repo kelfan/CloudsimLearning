@@ -18,7 +18,6 @@ import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.DatacenterBroker;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.HostStateHistoryEntry;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
@@ -27,11 +26,11 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.VmSchedulerTimeSharedOverSubscription;
 import org.cloudbus.cloudsim.VmStateHistoryEntry;
-import org.cloudbus.cloudsim.power.PowerDatacenter;
+import org.cloudbus.cloudsim.merge.MergedDatacenter;
+import org.cloudbus.cloudsim.merge.MergedHost;
+import org.cloudbus.cloudsim.merge.MergedVm;
 import org.cloudbus.cloudsim.power.PowerDatacenterBroker;
-import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
-import org.cloudbus.cloudsim.power.PowerVm;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationAbstract;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -65,7 +64,7 @@ public class Helper {
 		List<Vm> vms = new ArrayList<Vm>();
 		for (int i = 0; i < vmsNumber; i++) {
 			int vmType = i / (int) Math.ceil((double) vmsNumber / Constants.VM_TYPES);
-			vms.add(new PowerVm(
+			vms.add(new MergedVm(
 					i,
 					brokerId,
 					Constants.VM_MIPS[vmType],
@@ -88,8 +87,8 @@ public class Helper {
 	 * 
 	 * @return the list< power host>
 	 */
-	public static List<PowerHost> createHostList(int hostsNumber) {
-		List<PowerHost> hostList = new ArrayList<PowerHost>();
+	public static List<MergedHost> createHostList(int hostsNumber) {
+		List<MergedHost> hostList = new ArrayList<MergedHost>();
 		for (int i = 0; i < hostsNumber; i++) {
 			int hostType = i % Constants.HOST_TYPES;
 
@@ -142,7 +141,7 @@ public class Helper {
 	public static Datacenter createDatacenter(
 			String name,
 			Class<? extends Datacenter> datacenterClass,
-			List<PowerHost> hostList,
+			List<MergedHost> hostList,
 			VmAllocationPolicy vmAllocationPolicy) throws Exception {
 		String arch = "x86"; // system architecture
 		String os = "Linux"; // operating system
@@ -196,7 +195,7 @@ public class Helper {
 		for (Host host : hosts) {
 			boolean previousIsActive = true;
 			double lastTimeSwitchedOn = 0;
-			for (HostStateHistoryEntry entry : ((HostDynamicWorkload) host).getStateHistory()) {
+			for (HostStateHistoryEntry entry : ((MergedHost) host).getStateHistory()) {
 				if (previousIsActive == true && entry.isActive() == false) {
 					timeBeforeShutdown.add(entry.getTime() - lastTimeSwitchedOn);
 				}
@@ -243,7 +242,7 @@ public class Helper {
 	 * @param outputFolder the output folder
 	 */
 	public static void printResults(
-			PowerDatacenter datacenter,
+			MergedDatacenter datacenter,
 			List<Vm> vms,
 			double lastClock,
 			String experimentName,
@@ -495,7 +494,7 @@ public class Helper {
 		double totalTime = 0;
 
 		for (Host _host : hosts) {
-			HostDynamicWorkload host = (HostDynamicWorkload) _host;
+			MergedHost host = (MergedHost) _host;
 			double previousTime = -1;
 			double previousAllocated = 0;
 			double previousRequested = 0;
@@ -531,7 +530,7 @@ public class Helper {
 		double totalTime = 0;
 
 		for (Host _host : hosts) {
-			HostDynamicWorkload host = (HostDynamicWorkload) _host;
+			MergedHost host = (MergedHost) _host;
 			double previousTime = -1;
 			double previousAllocated = 0;
 			double previousRequested = 0;

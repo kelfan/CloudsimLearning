@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Pe;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.power.models.PowerModelLinear;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.junit.Before;
@@ -31,13 +32,13 @@ public class PowerHostTest {
 	private static final double STATIC_POWER_PERCENT = 0.3;
 	private static final double TIME = 10;
 	
-	private PowerHost host;
+	private MergedHost host;
 	
 	@Before
 	public void setUp() throws Exception {
 		List<Pe> peList = new ArrayList<Pe>();
 		peList.add(new Pe(0, new PeProvisionerSimple(MIPS)));
-		host = new PowerHost(0, null, null, 0, peList, null, new PowerModelLinear(MAX_POWER, STATIC_POWER_PERCENT));
+		host = new MergedHost(0, null, null, 0, peList, null, new PowerModelLinear(MAX_POWER, STATIC_POWER_PERCENT));
 	}
 
 	@Test

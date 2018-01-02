@@ -24,6 +24,9 @@ import org.cloudbus.cloudsim.core.SimEntity;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.distributions.UniformDistr;
 import org.cloudbus.cloudsim.lists.VmList;
+import org.cloudbus.cloudsim.merge.MergedDatacenter;
+import org.cloudbus.cloudsim.merge.MergedVm;
+import org.cloudbus.cloudsim.merge.NetworkCloudletSpaceSharedScheduler;
 
 /**
  * NetDatacentreBroker represents a broker acting on behalf of Datacenter provider. It hides VM
@@ -95,7 +98,7 @@ public class NetDatacenterBroker extends SimEntity {
          * is the datacenter id and each value is the datacenter itself. */
 	private Map<Integer, DatacenterCharacteristics> datacenterCharacteristicsList;
 
-	public static NetworkDatacenter linkDC;
+	public static MergedDatacenter linkDC;
 
 	public boolean createvmflag = true;
 
@@ -114,8 +117,8 @@ public class NetDatacenterBroker extends SimEntity {
 	public NetDatacenterBroker(String name) throws Exception {
 		super(name);
 
-		setVmList(new ArrayList<NetworkVm>());
-		setVmsCreatedList(new ArrayList<NetworkVm>());
+		setVmList(new ArrayList<MergedVm>());
+		setVmsCreatedList(new ArrayList<MergedVm>());
 		setCloudletList(new ArrayList<NetworkCloudlet>());
 		setAppCloudletList(new ArrayList<AppCloudlet>());
 		setCloudletSubmittedList(new ArrayList<Cloudlet>());
@@ -159,7 +162,7 @@ public class NetDatacenterBroker extends SimEntity {
 		getCloudletList().addAll(list);
 	}
 
-	public static void setLinkDC(NetworkDatacenter alinkDC) {
+	public static void setLinkDC(MergedDatacenter alinkDC) {
 		linkDC = alinkDC;
 	}
 
@@ -392,7 +395,7 @@ public class NetDatacenterBroker extends SimEntity {
 			String vmm = "Xen"; // VMM name
 
 			// create VM
-			NetworkVm vm = new NetworkVm(
+			MergedVm vm = new MergedVm(
 					vmid,
 					getId(),
 					mips,

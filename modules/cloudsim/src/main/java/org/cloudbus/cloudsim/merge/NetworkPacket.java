@@ -6,7 +6,7 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
 
 /**
  * NewtorkPacket represents the packet which travel from one server to another. Each packet contains
@@ -55,7 +55,7 @@ public class NetworkPacket {
     /**
      * Id of the sender cloudlet.
      * @todo This field is not needed, since its value is being
-     * get from a {@link HostPacket} instance at {@link NetworkHost#sendpackets()}.
+     * get from a {@link HostPacket} instance at {@link MergedHost#sendpackets()}.
      * So, such a data can be got form the {@link #pkt} attribute.
      */
     int cloudletid;

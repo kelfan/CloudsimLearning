@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.merge.MergedVm;
+import org.cloudbus.cloudsim.merge.MergedHost;
 
 /**
  * An abstract VM selection policy used to select VMs from a list of migratable VMs.
@@ -38,7 +40,7 @@ public abstract class PowerVmSelectionPolicy {
 	 * @param host the host
 	 * @return the vm to migrate
 	 */
-	public abstract Vm getVmToMigrate(PowerHost host);
+	public abstract Vm getVmToMigrate(MergedHost host);
 
 	/**
 	 * Gets the list of migratable VMs from a given host.
@@ -46,9 +48,9 @@ public abstract class PowerVmSelectionPolicy {
 	 * @param host the host
 	 * @return the list of migratable VMs
 	 */
-	protected List<PowerVm> getMigratableVms(PowerHost host) {
-		List<PowerVm> migratableVms = new ArrayList<PowerVm>();
-		for (PowerVm vm : host.<PowerVm> getVmList()) {
+	protected List<MergedVm> getMigratableVms(MergedHost host) {
+		List<MergedVm> migratableVms = new ArrayList<MergedVm>();
+		for (MergedVm vm : host.<MergedVm> getVmList()) {
 			if (!vm.isInMigration()) {
 				migratableVms.add(vm);
 			}

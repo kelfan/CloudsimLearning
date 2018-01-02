@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.merge.MergedHost;
 
 /**
  * A VM allocation policy that uses a Static CPU utilization Threshold (THR) to detect host over
@@ -59,7 +60,7 @@ public class PowerVmAllocationPolicyMigrationStaticThreshold extends PowerVmAllo
 	 * @return true, if the host is over utilized; false otherwise
 	 */
 	@Override
-	protected boolean isHostOverUtilized(PowerHost host) {
+	protected boolean isHostOverUtilized(MergedHost host) {
 		addHistoryEntry(host, getUtilizationThreshold());
 		double totalRequestedMips = 0;
 		for (Vm vm : host.getVmList()) {

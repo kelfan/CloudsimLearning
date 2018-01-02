@@ -6,7 +6,7 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +18,7 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
+import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
 
 /**
  * This class represents an Edge Switch in a Datacenter network. 
@@ -44,9 +45,9 @@ public class EdgeSwitch extends Switch {
 	 * @param level At which level the switch is with respect to hosts.
 	 * @param dc The Datacenter where the switch is connected to
 	 */
-	public EdgeSwitch(String name, int level, NetworkDatacenter dc) {
+	public EdgeSwitch(String name, int level, MergedDatacenter dc) {
 		super(name, level, dc);
-		hostlist = new HashMap<Integer, NetworkHost>();
+		hostlist = new HashMap<Integer, MergedHost>();
 		uplinkswitchpktlist = new HashMap<Integer, List<NetworkPacket>>();
 		packetTohost = new HashMap<Integer, List<NetworkPacket>>();
 		uplinkbandwidth = NetworkConstants.BandWidthEdgeAgg;
@@ -73,7 +74,7 @@ public class EdgeSwitch extends Switch {
 		// packet is to be sent to aggregate level or to another host in the same level
 
 		int hostid = dc.VmtoHostlist.get(recvVMid);
-		NetworkHost hs = hostlist.get(hostid);
+		MergedHost hs = hostlist.get(hostid);
 		hspkt.recieverhostid = hostid;
 
 		// packet needs to go to a host which is connected directly to switch

@@ -15,12 +15,12 @@ import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.network.datacenter.EdgeSwitch;
+import org.cloudbus.cloudsim.merge.MergedHost;
+import org.cloudbus.cloudsim.merge.MergedDatacenter;
+import org.cloudbus.cloudsim.merge.MergedVm;
+import org.cloudbus.cloudsim.merge.EdgeSwitch;
 import org.cloudbus.cloudsim.network.datacenter.NetDatacenterBroker;
 import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
-import org.cloudbus.cloudsim.network.datacenter.NetworkDatacenter;
-import org.cloudbus.cloudsim.network.datacenter.NetworkHost;
-import org.cloudbus.cloudsim.network.datacenter.NetworkVm;
 import org.cloudbus.cloudsim.network.datacenter.NetworkVmAllocationPolicy;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -29,7 +29,7 @@ import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 public class TestExample {
 
 	/** The vmlist. */
-	private static List<NetworkVm> vmlist;
+	private static List<MergedVm> vmlist;
 
 	/**
 	 * Creates main() to run this example.
@@ -52,7 +52,7 @@ public class TestExample {
 			// Second step: Create Datacenters
 			// Datacenters are the resource providers in CloudSim. We need at
 			// list one of them to run a CloudSim simulation
-			NetworkDatacenter datacenter0 = createDatacenter("Datacenter_0");
+			MergedDatacenter datacenter0 = createDatacenter("Datacenter_0");
 
 			// Third step: Create Broker
 			NetDatacenterBroker broker = createBroker();
@@ -60,7 +60,7 @@ public class TestExample {
 			// broker.setLinkDC(datacenter0);
 			// Fifth step: Create one Cloudlet
 
-			vmlist = new ArrayList<NetworkVm>();
+			vmlist = new ArrayList<MergedVm>();
 
 			// submit vm list to the broker
 
@@ -93,13 +93,13 @@ public class TestExample {
 	 * 
 	 * @return the datacenter
 	 */
-	private static NetworkDatacenter createDatacenter(String name) {
+	private static MergedDatacenter createDatacenter(String name) {
 
 		// Here are the steps needed to create a PowerDatacenter:
 		// 1. We need to create a list to store
 		// our machine
 
-		List<NetworkHost> hostList = new ArrayList<NetworkHost>();
+		List<MergedHost> hostList = new ArrayList<MergedHost>();
 
 		// 2. A Machine contains one or more PEs or CPUs/Cores.
 		// In this example, it will have only one core.
@@ -171,9 +171,9 @@ public class TestExample {
 			// MIPS
 			// Rating
 
-			// 4. Create PowerHost with its id and list of PEs and add them to
+			// 4. Create MergedHost with its id and list of PEs and add them to
 			// the list of machines
-			hostList.add(new NetworkHost(
+			hostList.add(new MergedHost(
 					i,
 					new RamProvisionerSimple(ram),
 					new BwProvisionerSimple(bw),
@@ -212,10 +212,10 @@ public class TestExample {
 				costPerStorage,
 				costPerBw);
 
-		// 6. Finally, we need to create a NetworkDatacenter object.
-		NetworkDatacenter datacenter = null;
+		// 6. Finally, we need to create a MergedDatacenter object.
+		MergedDatacenter datacenter = null;
 		try {
-			datacenter = new NetworkDatacenter(
+			datacenter = new MergedDatacenter(
 					name,
 					characteristics,
 					new NetworkVmAllocationPolicy(hostList),
@@ -281,7 +281,7 @@ public class TestExample {
 
 	}
 
-	static void CreateNetwork(int numhost, NetworkDatacenter dc) {
+	static void CreateNetwork(int numhost, MergedDatacenter dc) {
 
 		// Edge Switch
 		EdgeSwitch edgeswitch[] = new EdgeSwitch[1];
@@ -295,15 +295,15 @@ public class TestExample {
 		}
 
 		for (Host hs : dc.getHostList()) {
-			NetworkHost hs1 = (NetworkHost) hs;
+			MergedHost hs1 = (MergedHost) hs;
 			hs1.bandwidth = NetworkConstants.BandWidthEdgeHost;
 			int switchnum = (int) (hs.getId() / NetworkConstants.EdgeSwitchPort);
 			edgeswitch[switchnum].hostlist.put(hs.getId(), hs1);
 			dc.HostToSwitchid.put(hs.getId(), edgeswitch[switchnum].getId());
 			hs1.sw = edgeswitch[switchnum];
-			List<NetworkHost> hslist = hs1.sw.fintimelistHost.get(0D);
+			List<MergedHost> hslist = hs1.sw.fintimelistHost.get(0D);
 			if (hslist == null) {
-				hslist = new ArrayList<NetworkHost>();
+				hslist = new ArrayList<MergedHost>();
 				hs1.sw.fintimelistHost.put(0D, hslist);
 			}
 			hslist.add(hs1);

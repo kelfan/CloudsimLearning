@@ -12,8 +12,8 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.power.PowerDatacenter;
-import org.cloudbus.cloudsim.power.PowerHost;
+import org.cloudbus.cloudsim.merge.MergedDatacenter;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationAbstract;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationInterQuartileRange;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationLocalRegression;
@@ -55,7 +55,7 @@ public abstract class RunnerAbstract {
 	protected static List<Vm> vmList;
 
 	/** The host list. */
-	protected static List<PowerHost> hostList;
+	protected static List<MergedHost> hostList;
 
 	/**
 	 * Run.
@@ -158,9 +158,9 @@ public abstract class RunnerAbstract {
 		System.out.println("Starting " + experimentName);
 
 		try {
-			PowerDatacenter datacenter = (PowerDatacenter) Helper.createDatacenter(
+			MergedDatacenter datacenter = (MergedDatacenter) Helper.createDatacenter(
 					"Datacenter",
-					PowerDatacenter.class,
+					MergedDatacenter.class,
 					hostList,
 					vmAllocationPolicy);
 

@@ -6,7 +6,7 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
 
 /**
  * HostPacket represents the packet that travels through the virtual network within a Host.

@@ -35,7 +35,7 @@ public class PowerContainerVMSelectionPolicyCor extends PowerContainerVmSelectio
     * (non-Javadoc)
     *
     * @see org.cloudbus.cloudsim.experiments.power.PowerVmSelectionPolicy#
-    * getVmsToMigrate(org.cloudbus .cloudsim.power.PowerHost)
+    * getVmsToMigrate(org.cloudbus .cloudsim.power.MergedHost)
     */
     @Override
     public ContainerVm getVmToMigrate(final PowerContainerHost host) {

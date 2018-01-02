@@ -13,6 +13,7 @@ import java.util.List;
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.util.MathUtil;
 
 /**
@@ -109,7 +110,7 @@ public class PowerVmAllocationPolicyMigrationMedianAbsoluteDeviation extends
 	 * @return true, if the host is over utilized; false otherwise
 	 */
 	@Override
-	protected boolean isHostOverUtilized(PowerHost host) {
+	protected boolean isHostOverUtilized(MergedHost host) {
 		PowerHostUtilizationHistory _host = (PowerHostUtilizationHistory) host;
 		double upperThreshold = 0;
 		try {

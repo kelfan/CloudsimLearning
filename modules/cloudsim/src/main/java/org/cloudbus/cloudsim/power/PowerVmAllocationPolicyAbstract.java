@@ -17,6 +17,7 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.merge.MergedHost;
 
 /**
  * An abstract power-aware VM allocation policy.
@@ -79,8 +80,8 @@ public abstract class PowerVmAllocationPolicyAbstract extends VmAllocationPolicy
 	 * @param vm the vm to find a host for it
 	 * @return the first host found that can host the VM
 	 */
-	public PowerHost findHostForVm(Vm vm) {
-		for (PowerHost host : this.<PowerHost> getHostList()) {
+	public MergedHost findHostForVm(Vm vm) {
+		for (MergedHost host : this.<MergedHost> getHostList()) {
 			if (host.isSuitableForVm(vm)) {
 				return host;
 			}

@@ -10,7 +10,7 @@ package org.cloudbus.cloudsim;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.cloudbus.cloudsim.network.datacenter.NetworkCloudletSpaceSharedScheduler;
+import org.cloudbus.cloudsim.merge.NetworkCloudletSpaceSharedScheduler;
 
 
 /**

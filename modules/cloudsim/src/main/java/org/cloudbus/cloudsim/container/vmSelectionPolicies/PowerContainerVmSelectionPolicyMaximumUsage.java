@@ -14,7 +14,7 @@ public class PowerContainerVmSelectionPolicyMaximumUsage extends PowerContainerV
      * (non-Javadoc)
      * @see
      * org.cloudbus.cloudsim.experiments.power.PowerVmSelectionPolicy#getVmsToMigrate(org.cloudbus
-     * .cloudsim.power.PowerHost)
+     * .cloudsim.power.MergedHost)
      */
     @Override
     public ContainerVm getVmToMigrate(PowerContainerHost host) {

@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.merge.MergedHost;
 import org.cloudbus.cloudsim.util.MathUtil;
 
 /**
@@ -106,7 +107,7 @@ public class PowerVmAllocationPolicyMigrationLocalRegression extends PowerVmAllo
 	 * @return true, if is host over utilized; false otherwise
 	 */
 	@Override
-	protected boolean isHostOverUtilized(PowerHost host) {
+	protected boolean isHostOverUtilized(MergedHost host) {
 		PowerHostUtilizationHistory _host = (PowerHostUtilizationHistory) host;
 		double[] utilizationHistory = _host.getUtilizationHistory();
 		int length = 10; // we use 10 to make the regression responsive enough to latest values
@@ -148,7 +149,7 @@ public class PowerVmAllocationPolicyMigrationLocalRegression extends PowerVmAllo
 	 * @param host the host
 	 * @return the maximum vm migration time
 	 */
-	protected double getMaximumVmMigrationTime(PowerHost host) {
+	protected double getMaximumVmMigrationTime(MergedHost host) {
 		int maxRam = Integer.MIN_VALUE;
 		for (Vm vm : host.getVmList()) {
 			int ram = vm.getRam();

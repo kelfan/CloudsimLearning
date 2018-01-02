@@ -24,7 +24,7 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.network.datacenter.AppCloudlet;
 import org.cloudbus.cloudsim.network.datacenter.NetworkCloudlet;
 import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
-import org.cloudbus.cloudsim.network.datacenter.TaskStage;
+import org.cloudbus.cloudsim.merge.TaskStage;
 
 public class TestBagofTaskApp extends AppCloudlet {
 

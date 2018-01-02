@@ -6,11 +6,14 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
+
+import org.cloudbus.cloudsim.network.datacenter.NetworkCloudlet;
+import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
 
 /**
- * TaskStage represents various stages a {@link NetworkCloudlet} can have during execution. 
- * Four stage types which are possible: {@link NetworkConstants#EXECUTION}, 
+ * TaskStage represents various stages a {@link NetworkCloudlet} can have during execution.
+ * Four stage types which are possible: {@link NetworkConstants#EXECUTION},
  * {@link NetworkConstants#WAIT_SEND}, {@link NetworkConstants#WAIT_RECV}, 
  * {@link NetworkConstants#FINISH}.
  * 

@@ -18,6 +18,7 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.merge.MergedHost;
 
 /**
  * NetworkVmAllocationPolicy is an {@link VmAllocationPolicy} that chooses, 
@@ -96,7 +97,7 @@ public class NetworkVmAllocationPolicy extends VmAllocationPolicy {
 					}
 				}
 
-				NetworkHost host = this.<NetworkHost> getHostList().get(idx);
+				MergedHost host = this.<MergedHost> getHostList().get(idx);
 				result = host.vmCreate(vm);
 
 				if (result) { // if vm were succesfully created in the host
@@ -122,9 +123,9 @@ public class NetworkVmAllocationPolicy extends VmAllocationPolicy {
          * @param vm The VM to get the max PEs utilization
          * @return The max utilization among the PEs of the VM
          */
-	protected double getMaxUtilizationAfterAllocation(NetworkHost host, Vm vm) {
+	protected double getMaxUtilizationAfterAllocation(MergedHost host, Vm vm) {
 		List<Double> allocatedMipsForVm = null;
-		NetworkHost allocatedHost = (NetworkHost) vm.getHost();
+		MergedHost allocatedHost = (MergedHost) vm.getHost();
 
 		if (allocatedHost != null) {
 			allocatedMipsForVm = vm.getHost().getAllocatedMipsForVm(vm);

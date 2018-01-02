@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.merge.MergedHost;
+import org.cloudbus.cloudsim.merge.MergedVm;
 
 /**
  * A VM selection policy that randomly select VMs to migrate from a host.
@@ -31,8 +33,8 @@ import org.cloudbus.cloudsim.Vm;
  */
 public class PowerVmSelectionPolicyRandomSelection extends PowerVmSelectionPolicy {
 	@Override
-	public Vm getVmToMigrate(PowerHost host) {
-		List<PowerVm> migratableVms = getMigratableVms(host);
+	public Vm getVmToMigrate(MergedHost host) {
+		List<MergedVm> migratableVms = getMigratableVms(host);
 		if (migratableVms.isEmpty()) {
 			return null;
 		}

@@ -6,7 +6,7 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +25,7 @@ import org.cloudbus.cloudsim.core.SimEntity;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
 import org.cloudbus.cloudsim.lists.VmList;
+import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
 
 /**
  * Represents a Network Switch.
@@ -64,7 +65,7 @@ public class Switch extends SimEntity {
          * Map of hosts connected to the switch, where each key is the host ID
          * and the corresponding value is the host itself.
          */
-	public Map<Integer, NetworkHost> hostlist;
+	public Map<Integer, MergedHost> hostlist;
 
         /**
          * List of uplink switches.
@@ -114,15 +115,15 @@ public class Switch extends SimEntity {
          * The datacenter where the switch is connected to.
          * @todo It doesn't appear to be used
          */
-	public NetworkDatacenter dc;
+	public MergedDatacenter dc;
 
 	/** Something is running on these hosts. 
          * @todo The attribute is only used at the TestExample class. */
-	public SortedMap<Double, List<NetworkHost>> fintimelistHost = new TreeMap<Double, List<NetworkHost>>();
+	public SortedMap<Double, List<MergedHost>> fintimelistHost = new TreeMap<Double, List<MergedHost>>();
 
 	/** Something is running on these hosts. 
          * @todo The attribute doesn't appear to be used */
-	public SortedMap<Double, List<NetworkVm>> fintimelistVM = new TreeMap<Double, List<NetworkVm>>();
+	public SortedMap<Double, List<MergedVm>> fintimelistVM = new TreeMap<Double, List<MergedVm>>();
 
         /**
          * List of  received packets.
@@ -150,9 +151,9 @@ public class Switch extends SimEntity {
          * A map of VMs connected to this switch.
          * @todo The list doesn't appear to be updated (VMs added to it) anywhere. 
          */
-	public Map<Integer, NetworkVm> Vmlist = new HashMap<Integer, NetworkVm>();
+	public Map<Integer, MergedVm> Vmlist = new HashMap<Integer, MergedVm>();
 
-	public Switch(String name, int level, NetworkDatacenter dc) {
+	public Switch(String name, int level, MergedDatacenter dc) {
 		super(name);
 		this.level = level;
 		this.dc = dc;
@@ -202,7 +203,7 @@ public class Switch extends SimEntity {
 	protected void processhostpacket(SimEvent ev) {
 		// Send packet to host
 		NetworkPacket hspkt = (NetworkPacket) ev.getData();
-		NetworkHost hs = hostlist.get(hspkt.recieverhostid);
+		MergedHost hs = hostlist.get(hspkt.recieverhostid);
 		hs.packetrecieved.add(hspkt);
 	}
 
@@ -271,7 +272,7 @@ public class Switch extends SimEntity {
 			// same level
 
 			int hostid = dc.VmtoHostlist.get(recvVMid);
-			NetworkHost hs = hostlist.get(hostid);
+			MergedHost hs = hostlist.get(hostid);
 			hspkt.recieverhostid = hostid;
 			if (hs != null) {
 				// packet to be sent to host connected to the switch
@@ -357,7 +358,7 @@ public class Switch extends SimEntity {
          * @param ev 
          */
 	private void registerHost(SimEvent ev) {
-		NetworkHost hs = (NetworkHost) ev.getData();
+		MergedHost hs = (MergedHost) ev.getData();
 		hostlist.put(hs.getId(), hs);
 	}
 
@@ -456,8 +457,8 @@ public class Switch extends SimEntity {
          * @param vmid The id of the VM
          * @return the host of the VM
          */
-	protected NetworkHost getHostwithVM(int vmid) {
-		for (Entry<Integer, NetworkHost> es : hostlist.entrySet()) {
+	protected MergedHost getHostwithVM(int vmid) {
+		for (Entry<Integer, MergedHost> es : hostlist.entrySet()) {
 			Vm vm = VmList.getById(es.getValue().getVmList(), vmid);
 			if (vm != null) {
 				return es.getValue();
@@ -472,9 +473,9 @@ public class Switch extends SimEntity {
          * @param numVMReq The number of free VMs to get.
          * @return the list of free VMs.
          */
-	protected List<NetworkVm> getfreeVmlist(int numVMReq) {
-		List<NetworkVm> freehostls = new ArrayList<NetworkVm>();
-		for (Entry<Integer, NetworkVm> et : Vmlist.entrySet()) {
+	protected List<MergedVm> getfreeVmlist(int numVMReq) {
+		List<MergedVm> freehostls = new ArrayList<MergedVm>();
+		for (Entry<Integer, MergedVm> et : Vmlist.entrySet()) {
 			if (et.getValue().isFree()) {
 				freehostls.add(et.getValue());
 			}
@@ -492,9 +493,9 @@ public class Switch extends SimEntity {
          * @param numhost The number of free hosts to get.
          * @return the list of free hosts.
          */
-	protected List<NetworkHost> getfreehostlist(int numhost) {
-		List<NetworkHost> freehostls = new ArrayList<NetworkHost>();
-		for (Entry<Integer, NetworkHost> et : hostlist.entrySet()) {
+	protected List<MergedHost> getfreehostlist(int numhost) {
+		List<MergedHost> freehostls = new ArrayList<MergedHost>();
+		for (Entry<Integer, MergedHost> et : hostlist.entrySet()) {
 			if (et.getValue().getNumberOfFreePes() == et.getValue().getNumberOfPes()) {
 				freehostls.add(et.getValue());
 			}

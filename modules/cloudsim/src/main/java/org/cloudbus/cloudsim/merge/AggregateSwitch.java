@@ -6,7 +6,7 @@
  * Copyright (c) 2009-2012, The University of Melbourne, Australia
  */
 
-package org.cloudbus.cloudsim.network.datacenter;
+package org.cloudbus.cloudsim.merge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
+import org.cloudbus.cloudsim.network.datacenter.NetworkConstants;
 
 /**
  * This class represents an Aggregate Switch in a Datacenter network. 
@@ -41,7 +42,7 @@ public class AggregateSwitch extends Switch {
 	 * @param level At which level the switch is with respect to hosts.
 	 * @param dc The Datacenter where the switch is connected to
 	 */
-	public AggregateSwitch(String name, int level, NetworkDatacenter dc) {
+	public AggregateSwitch(String name, int level, MergedDatacenter dc) {
 		super(name, level, dc);
 		downlinkswitchpktlist = new HashMap<Integer, List<NetworkPacket>>();
 		uplinkswitchpktlist = new HashMap<Integer, List<NetworkPacket>>();

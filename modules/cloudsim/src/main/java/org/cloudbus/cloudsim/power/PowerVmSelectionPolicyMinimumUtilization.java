@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.merge.MergedHost;
+import org.cloudbus.cloudsim.merge.MergedVm;
 
 /**
  * A VM selection policy that selects for migration the VM with Minimum Utilization (MU)
@@ -32,8 +34,8 @@ import org.cloudbus.cloudsim.core.CloudSim;
  */
 public class PowerVmSelectionPolicyMinimumUtilization extends PowerVmSelectionPolicy {
 	@Override
-	public Vm getVmToMigrate(PowerHost host) {
-		List<PowerVm> migratableVms = getMigratableVms(host);
+	public Vm getVmToMigrate(MergedHost host) {
+		List<MergedVm> migratableVms = getMigratableVms(host);
 		if (migratableVms.isEmpty()) {
 			return null;
 		}

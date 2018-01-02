@@ -8,6 +8,8 @@
 
 package org.cloudbus.cloudsim.network.datacenter;
 
+import org.cloudbus.cloudsim.merge.TaskStage;
+
 /**
  * Network constants
  * @todo This class uses several hard-coded values that appears to be used 
