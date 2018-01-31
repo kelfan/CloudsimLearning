@@ -2,7 +2,7 @@ package mergeTest.power;
 
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.power.*;
+import org.cloudbus.cloudsim.merge.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

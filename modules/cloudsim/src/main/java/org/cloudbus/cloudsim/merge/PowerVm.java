@@ -11,60 +11,30 @@ package org.cloudbus.cloudsim.merge;
 import org.cloudbus.cloudsim.CloudletScheduler;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.network.datacenter.NetworkCloudlet;
 import org.cloudbus.cloudsim.util.MathUtil;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * NetworkVm class extends {@link Vm} to support simulation of networked datacenters. 
- * It executes actions related to management of packets (sent and received).
+ * A class of VM that stores its CPU utilization percentage history. The history is used by VM allocation
+ * and selection policies.
  * 
- * <br/>Please refer to following publication for more details:<br/>
+ * <br/>If you are using any algorithms, policies or workload included in the power package please cite
+ * the following paper:<br/>
+ * 
  * <ul>
- * <li><a href="http://dx.doi.org/10.1109/UCC.2011.24">Saurabh Kumar Garg and Rajkumar Buyya, NetworkCloudSim: Modelling Parallel Applications in Cloud
- * Simulations, Proceedings of the 4th IEEE/ACM International Conference on Utility and Cloud
- * Computing (UCC 2011, IEEE CS Press, USA), Melbourne, Australia, December 5-7, 2011.</a>
+ * <li><a href="http://dx.doi.org/10.1002/cpe.1867">Anton Beloglazov, and Rajkumar Buyya, "Optimal Online Deterministic Algorithms and Adaptive
+ * Heuristics for Energy and Performance Efficient Dynamic Consolidation of Virtual Machines in
+ * Cloud Data Centers", Concurrency and Computation: Practice and Experience (CCPE), Volume 24,
+ * Issue 13, Pages: 1397-1420, John Wiley & Sons, Ltd, New York, USA, 2012</a>
  * </ul>
  * 
- * @author Saurabh Kumar Garg
- * @since CloudSim Toolkit 3.0
- * @todo Attributes should be private
+ * @author Anton Beloglazov
+ * @since CloudSim Toolkit 2.0
  */
-public class MergeVm extends Vm implements Comparable<Object> {
-        /**
-         * List of {@link MergeCloudlet} of the VM.
-         */
-	public ArrayList<MergeCloudlet> cloudletlist;
+public class PowerVm extends Vm {
 
-        /**
-         * @todo It doesn't appear to be used.
-         */
-	int type;
-
-        /**
-         * List of packets received by the VM.
-         */
-	public ArrayList<MergeHostPacket> recvPktlist;
-
-        /**
-         * @todo It doesn't appear to be used.
-         */
-	public double memory;
-
-        /**
-         * @todo It doesn't appear to be used.
-         */
-	public boolean flagfree;
-
-        /**
-         * The time when the VM finished to process its cloudlets.
-         */
-	public double finishtime;
-
-	// Attritbutes for PowerVM
 	/** The Constant HISTORY_LENGTH. */
 	public static final int HISTORY_LENGTH = 30;
 
@@ -75,28 +45,12 @@ public class MergeVm extends Vm implements Comparable<Object> {
 	private double previousTime;
 
 	/** The scheduling interval to update the processing of cloudlets
-	 * running in this VM. */
+         * running in this VM. */
 	private double schedulingInterval;
-
-	// initialize a NetworkVm
-	public MergeVm(
-			int id,
-			int userId,
-			double mips,
-			int pesNumber,
-			int ram,
-			long bw,
-			long size,
-			String vmm,
-			CloudletScheduler cloudletScheduler) {
-		super(id, userId, mips, pesNumber, ram, bw, size, vmm, cloudletScheduler);
-
-		cloudletlist = new ArrayList<MergeCloudlet>();
-	}
 
 	/**
 	 * Instantiates a new PowerVm.
-	 *
+	 * 
 	 * @param id the id
 	 * @param userId the user id
 	 * @param mips the mips
@@ -109,7 +63,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 	 * @param cloudletScheduler the cloudlet scheduler
 	 * @param schedulingInterval the scheduling interval
 	 */
-	public MergeVm(
+	public PowerVm(
 			final int id,
 			final int userId,
 			final double mips,
@@ -125,24 +79,6 @@ public class MergeVm extends Vm implements Comparable<Object> {
 		setSchedulingInterval(schedulingInterval);
 	}
 
-	// methods for Network Vm
-	public boolean isFree() {
-		return flagfree;
-	}
-
-	@Override
-	public int compareTo(Object arg0) {
-		MergeVm hs = (MergeVm) arg0;
-		if (hs.finishtime > finishtime) {
-			return -1;
-		}
-		if (hs.finishtime < finishtime) {
-			return 1;
-		}
-		return 0;
-	}
-
-	// methods for Power Vm
 	@Override
 	public double updateVmProcessing(final double currentTime, final List<Double> mipsShare) {
 		double time = super.updateVmProcessing(currentTime, mipsShare);
@@ -158,7 +94,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the utilization MAD in MIPS.
-	 *
+	 * 
 	 * @return the utilization MAD in MIPS
 	 */
 	public double getUtilizationMad() {
@@ -180,7 +116,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the utilization mean in percents.
-	 *
+	 * 
 	 * @return the utilization mean in MIPS
 	 */
 	public double getUtilizationMean() {
@@ -200,7 +136,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the utilization variance in MIPS.
-	 *
+	 * 
 	 * @return the utilization variance in MIPS
 	 */
 	public double getUtilizationVariance() {
@@ -222,7 +158,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Adds a CPU utilization percentage history value.
-	 *
+	 * 
 	 * @param utilization the CPU utilization percentage to add
 	 */
 	public void addUtilizationHistoryValue(final double utilization) {
@@ -234,7 +170,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the CPU utilization percentage history.
-	 *
+	 * 
 	 * @return the CPU utilization percentage history
 	 */
 	protected List<Double> getUtilizationHistory() {
@@ -243,7 +179,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the previous time.
-	 *
+	 * 
 	 * @return the previous time
 	 */
 	public double getPreviousTime() {
@@ -252,7 +188,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Sets the previous time.
-	 *
+	 * 
 	 * @param previousTime the new previous time
 	 */
 	public void setPreviousTime(final double previousTime) {
@@ -261,7 +197,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Gets the scheduling interval.
-	 *
+	 * 
 	 * @return the schedulingInterval
 	 */
 	public double getSchedulingInterval() {
@@ -270,7 +206,7 @@ public class MergeVm extends Vm implements Comparable<Object> {
 
 	/**
 	 * Sets the scheduling interval.
-	 *
+	 * 
 	 * @param schedulingInterval the schedulingInterval to set
 	 */
 	protected void setSchedulingInterval(final double schedulingInterval) {

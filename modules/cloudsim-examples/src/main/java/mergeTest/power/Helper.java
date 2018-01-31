@@ -1,7 +1,7 @@
 package mergeTest.power;
 
 import org.cloudbus.cloudsim.*;
-import org.cloudbus.cloudsim.power.*;
+import org.cloudbus.cloudsim.merge.*;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
@@ -109,8 +109,6 @@ public class Helper {
 	 * @param datacenterClass the datacenter class
 	 * @param hostList the host list
 	 * @param vmAllocationPolicy the vm allocation policy
-	 * @param simulationLength
-	 * 
 	 * @return the power datacenter
 	 * 
 	 * @throws Exception the exception
