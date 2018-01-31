@@ -1,9 +1,10 @@
 package mergeTest.random;
 
+import mergeTest.power.Helper;
+import mergeTest.power.RunnerAbstract;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.examples.power.Helper;
-import org.cloudbus.cloudsim.examples.power.RunnerAbstract;
+
 
 import java.util.Calendar;
 

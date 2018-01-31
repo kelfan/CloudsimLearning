@@ -41,7 +41,7 @@ public class Helper {
 		List<Vm> vms = new ArrayList<Vm>();
 		for (int i = 0; i < vmsNumber; i++) {
 			int vmType = i / (int) Math.ceil((double) vmsNumber / Constants.VM_TYPES);
-			vms.add(new PowerVm(
+			vms.add(new MergeVm(
 					i,
 					brokerId,
 					Constants.VM_MIPS[vmType],
