@@ -2,7 +2,7 @@ package mergeTest;
 
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.merge.MergeVm;
+import org.cloudbus.cloudsim.merge.*;
 import org.cloudbus.cloudsim.network.datacenter.*;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -42,10 +42,10 @@ public class NetworkTest {
             // Second step: Create Datacenters
             // Datacenters are the resource providers in CloudSim. We need at
             // list one of them to run a CloudSim simulation
-            NetworkDatacenter datacenter0 = createDatacenter("Datacenter_0");
+            MergeDatacenter datacenter0 = createDatacenter("Datacenter_0");
 
             // Third step: Create Broker
-            NetDatacenterBroker broker = createBroker();
+            MergeNetDatacenterBroker broker = createBroker();
             broker.setLinkDC(datacenter0);
             // broker.setLinkDC(datacenter0);
             // Fifth step: Create one Cloudlet
@@ -65,8 +65,8 @@ public class NetworkTest {
             List<Cloudlet> newList = broker.getCloudletReceivedList();
             printCloudletList(newList);
             System.out.println("numberofcloudlet " + newList.size() + " Cached "
-                    + NetDatacenterBroker.cachedcloudlet + " Data transfered "
-                    + NetworkConstants.totaldatatransfer);
+                    + MergeNetDatacenterBroker.cachedcloudlet + " Data transfered "
+                    + MergeConstants.totaldatatransfer);
 
             Log.printLine("CloudSimExample1 finished!");
         } catch (Exception e) {
@@ -83,13 +83,13 @@ public class NetworkTest {
      *
      * @return the datacenter
      */
-    private static NetworkDatacenter createDatacenter(String name) {
+    private static MergeDatacenter createDatacenter(String name) {
 
         // Here are the steps needed to create a PowerDatacenter:
         // 1. We need to create a list to store
         // our machine
 
-        List<NetworkHost> hostList = new ArrayList<NetworkHost>();
+        List<MergeHost> hostList = new ArrayList<MergeHost>();
 
         // 2. A Machine contains one or more PEs or CPUs/Cores.
         // In this example, it will have only one core.
@@ -106,8 +106,8 @@ public class NetworkTest {
         int ram = 2048; // host memory (MB)
         long storage = 1000000; // host storage
         int bw = 10000;
-        for (int i = 0; i < NetworkConstants.EdgeSwitchPort * NetworkConstants.AggSwitchPort
-                * NetworkConstants.RootSwitchPort; i++) {
+        for (int i = 0; i < MergeConstants.EdgeSwitchPort * MergeConstants.AggSwitchPort
+                * MergeConstants.RootSwitchPort; i++) {
             // 2. A Machine contains one or more PEs or CPUs/Cores.
             // In this example, it will have only one core.
             // 3. Create PEs and add these into an object of PowerPeList.
@@ -163,7 +163,7 @@ public class NetworkTest {
 
             // 4. Create PowerHost with its id and list of PEs and add them to
             // the list of machines
-            hostList.add(new NetworkHost(
+            hostList.add(new MergeHost(
                     i,
                     new RamProvisionerSimple(ram),
                     new BwProvisionerSimple(bw),
@@ -202,13 +202,13 @@ public class NetworkTest {
                 costPerStorage,
                 costPerBw);
 
-        // 6. Finally, we need to create a NetworkDatacenter object.
-        NetworkDatacenter datacenter = null;
+        // 6. Finally, we need to create a MergeDatacenter object.
+        MergeDatacenter datacenter = null;
         try {
-            datacenter = new NetworkDatacenter(
+            datacenter = new MergeDatacenter(
                     name,
                     characteristics,
-                    new NetworkVmAllocationPolicy(hostList),
+                    new MergeNetworkVmAllocationPolicy(hostList),
                     storageList,
                     0);
 
@@ -228,10 +228,10 @@ public class NetworkTest {
      *
      * @return the datacenter broker
      */
-    private static NetDatacenterBroker createBroker() {
-        NetDatacenterBroker broker = null;
+    private static MergeNetDatacenterBroker createBroker() {
+        MergeNetDatacenterBroker broker = null;
         try {
-            broker = new NetDatacenterBroker("Broker");
+            broker = new MergeNetDatacenterBroker("Broker");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -271,13 +271,13 @@ public class NetworkTest {
 
     }
 
-    static void CreateNetwork(int numhost, NetworkDatacenter dc) {
+    static void CreateNetwork(int numhost, MergeDatacenter dc) {
 
         // Edge Switch
-        EdgeSwitch edgeswitch[] = new EdgeSwitch[1];
+        MergeEdgeSwitch edgeswitch[] = new MergeEdgeSwitch[1];
 
         for (int i = 0; i < 1; i++) {
-            edgeswitch[i] = new EdgeSwitch("Edge" + i, NetworkConstants.EDGE_LEVEL, dc);
+            edgeswitch[i] = new MergeEdgeSwitch("Edge" + i, MergeConstants.EDGE_LEVEL, dc);
             // edgeswitch[i].uplinkswitches.add(null);
             dc.Switchlist.put(edgeswitch[i].getId(), edgeswitch[i]);
             // aggswitch[(int)
@@ -285,15 +285,15 @@ public class NetworkTest {
         }
 
         for (Host hs : dc.getHostList()) {
-            NetworkHost hs1 = (NetworkHost) hs;
-            hs1.bandwidth = NetworkConstants.BandWidthEdgeHost;
-            int switchnum = (int) (hs.getId() / NetworkConstants.EdgeSwitchPort);
+            MergeHost hs1 = (MergeHost) hs;
+            hs1.bandwidth = MergeConstants.BandWidthEdgeHost;
+            int switchnum = (int) (hs.getId() / MergeConstants.EdgeSwitchPort);
             edgeswitch[switchnum].hostlist.put(hs.getId(), hs1);
             dc.HostToSwitchid.put(hs.getId(), edgeswitch[switchnum].getId());
             hs1.sw = edgeswitch[switchnum];
-            List<NetworkHost> hslist = hs1.sw.fintimelistHost.get(0D);
+            List<MergeHost> hslist = hs1.sw.fintimelistHost.get(0D);
             if (hslist == null) {
-                hslist = new ArrayList<NetworkHost>();
+                hslist = new ArrayList<MergeHost>();
                 hs1.sw.fintimelistHost.put(0D, hslist);
             }
             hslist.add(hs1);
