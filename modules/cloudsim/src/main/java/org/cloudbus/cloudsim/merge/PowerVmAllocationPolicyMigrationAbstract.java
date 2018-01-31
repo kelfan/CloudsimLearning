@@ -462,7 +462,7 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	 * @return true, if successful
 	 */
 	protected boolean areAllVmsMigratingOutOrAnyVmMigratingIn(PowerHost host) {
-		for (PowerVm vm : host.<PowerVm> getVmList()) {
+		for (MergeVm vm : host.<MergeVm> getVmList()) {
 			if (!vm.isInMigration()) {
 				return false;
 			}

@@ -50,7 +50,7 @@ public class PowerVmSelectionPolicyMaximumCorrelation extends PowerVmSelectionPo
 
 	@Override
 	public Vm getVmToMigrate(final PowerHost host) {
-		List<PowerVm> migratableVms = getMigratableVms(host);
+		List<MergeVm> migratableVms = getMigratableVms(host);
 		if (migratableVms.isEmpty()) {
 			return null;
 		}
@@ -79,7 +79,7 @@ public class PowerVmSelectionPolicyMaximumCorrelation extends PowerVmSelectionPo
 	 * @return the CPU utilization percentage matrix, where each line i
          * is a VM and each column j is a CPU utilization percentage history for that VM.
 	 */
-	protected double[][] getUtilizationMatrix(final List<PowerVm> vmList) {
+	protected double[][] getUtilizationMatrix(final List<MergeVm> vmList) {
 		int n = vmList.size();
                 /*@todo It gets the min size of the history among all VMs considering
                 that different VMs can have different history sizes.
@@ -104,9 +104,9 @@ public class PowerVmSelectionPolicyMaximumCorrelation extends PowerVmSelectionPo
 	 * @param vmList the VM list
 	 * @return the min CPU utilization percentage history size of the VM list
 	 */
-	protected int getMinUtilizationHistorySize(final List<PowerVm> vmList) {
+	protected int getMinUtilizationHistorySize(final List<MergeVm> vmList) {
 		int minSize = Integer.MAX_VALUE;
-		for (PowerVm vm : vmList) {
+		for (MergeVm vm : vmList) {
 			int size = vm.getUtilizationHistory().size();
 			if (size < minSize) {
 				minSize = size;

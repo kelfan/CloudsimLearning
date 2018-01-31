@@ -33,7 +33,7 @@ import java.util.List;
 public class PowerVmSelectionPolicyMinimumUtilization extends PowerVmSelectionPolicy {
 	@Override
 	public Vm getVmToMigrate(PowerHost host) {
-		List<PowerVm> migratableVms = getMigratableVms(host);
+		List<MergeVm> migratableVms = getMigratableVms(host);
 		if (migratableVms.isEmpty()) {
 			return null;
 		}

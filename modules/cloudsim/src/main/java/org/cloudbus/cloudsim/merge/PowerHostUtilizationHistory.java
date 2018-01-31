@@ -64,9 +64,9 @@ public class PowerHostUtilizationHistory extends PowerHost {
 	 * @return the host CPU utilization percentage history
 	 */
 	protected double[] getUtilizationHistory() {
-		double[] utilizationHistory = new double[PowerVm.HISTORY_LENGTH];
+		double[] utilizationHistory = new double[MergeVm.HISTORY_LENGTH];
 		double hostMips = getTotalMips();
-		for (PowerVm vm : this.<PowerVm> getVmList()) {
+		for (MergeVm vm : this.<MergeVm> getVmList()) {
 			for (int i = 0; i < vm.getUtilizationHistory().size(); i++) {
 				utilizationHistory[i] += vm.getUtilizationHistory().get(i) * vm.getMips() / hostMips;
 			}
